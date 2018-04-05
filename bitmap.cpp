@@ -83,12 +83,12 @@ void readBMP(int *img, int ntot, std::string _filename) {
         }
 
         // Get file info from header
-        int32_t fileSize = *reinterpret_cast<int32_t *>(&header[2]);
-        int32_t offset   = *reinterpret_cast<int32_t *>(&header[10]);
-        int32_t width    = *reinterpret_cast<int32_t *>(&header[18]);
-        int32_t height   = *reinterpret_cast<int32_t *>(&header[22]);
-        int32_t depth    = *reinterpret_cast<int32_t *>(&header[28]);
-        int32_t compress = *reinterpret_cast<int32_t *>(&header[30]);
+        uint32_t fileSize = *reinterpret_cast<uint32_t *>(&header[2]);
+        uint32_t offset   = *reinterpret_cast<uint32_t *>(&header[10]);
+        int32_t  width    = *reinterpret_cast<int32_t *>(&header[18]);
+        int32_t  height   = *reinterpret_cast<int32_t *>(&header[22]);
+        int16_t  depth    = *reinterpret_cast<int16_t *>(&header[28]);
+        int32_t  compress = *reinterpret_cast<int32_t *>(&header[30]);
 
         // Compatability checks
         bool invHeight = false;
@@ -112,7 +112,7 @@ void readBMP(int *img, int ntot, std::string _filename) {
         int32_t dataSize = rowSize*height;
 
         // Read from file
-        char *buf = new char[dataSize];
+        unsigned char *buf = new unsigned char[dataSize];
         file.seekg(offset, std::ios::beg);
         file.read(reinterpret_cast<char*>(buf),dataSize);
         file.close();
